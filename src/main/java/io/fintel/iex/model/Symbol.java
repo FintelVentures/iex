@@ -1,6 +1,7 @@
 package io.fintel.iex.model;
 
-import java.time.LocalDate;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Symbol {
 
@@ -10,6 +11,31 @@ public class Symbol {
     private boolean isEnabled;
     private String type;
     private int iexId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Symbol symbol = (Symbol) o;
+        return iexId == symbol.iexId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(iexId);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Symbol.class.getSimpleName() + "[", "]")
+                .add("symbol='" + symbol + "'")
+                .add("name='" + name + "'")
+                .add("date='" + date + "'")
+                .add("isEnabled=" + isEnabled)
+                .add("type='" + type + "'")
+                .add("iexId=" + iexId)
+                .toString();
+    }
 
     public String getDate() {
         return date;

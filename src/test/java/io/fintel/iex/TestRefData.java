@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
+import io.fintel.iex.model.StockChartItem;
 import io.fintel.iex.model.Symbol;
 
 public class TestRefData {
@@ -29,4 +30,13 @@ public class TestRefData {
         Assert.assertNotNull(symbols);
         Assert.assertFalse("Symbol list is empty", symbols.isEmpty());
     }
+
+    @Test
+    public void testStockChart() {
+
+        List<StockChartItem> chartList = client.getStockChart("AAPL");
+        Assert.assertNotNull(chartList);
+        Assert.assertFalse("Chart is empty", chartList.isEmpty());
+    }
+
 }

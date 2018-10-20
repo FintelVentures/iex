@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.fintel.iex.model.StockChartItem;
 import io.fintel.iex.model.Symbol;
 
 public class IEXClient {
@@ -30,4 +31,17 @@ public class IEXClient {
         Type listType = new TypeToken<ArrayList<Symbol>>(){}.getType();
         return gson.fromJson(json, listType);
     }
+
+    /**
+     * This gets a chart
+     * @return
+     */
+    public List<StockChartItem> getStockChart(String symbol) {
+
+        JsonElement json = httpClientUtil.getJson(ROOT_URL + "/stock/" + symbol.toLowerCase() + "/chart");
+
+        Type listType = new TypeToken<ArrayList<StockChartItem>>(){}.getType();
+        return gson.fromJson(json, listType);
+    }
+
 }
