@@ -6,11 +6,14 @@ import java.util.StringJoiner;
 public class Symbol {
 
     private String symbol;
+    private String exchange;
     private String name;
     private String date;
     private boolean isEnabled;
     private String type;
-    private int iexId;
+    private String region;
+    private String currency;
+    private String iexId;
 
     @Override
     public boolean equals(Object o) {
@@ -45,14 +48,6 @@ public class Symbol {
         this.date = date;
     }
 
-    public int getIexId() {
-        return iexId;
-    }
-
-    public void setIexId(int iexId) {
-        this.iexId = iexId;
-    }
-
     public String getName() {
         return name;
     }
@@ -83,5 +78,37 @@ public class Symbol {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(String exchange) {
+        this.exchange = exchange;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getIexId() {
+        return iexId;
+    }
+
+    public void setIexId(String iexId) {
+        this.iexId = iexId;
     }
 }
