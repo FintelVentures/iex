@@ -1,6 +1,7 @@
 package io.fintel.iex.model;
 
 import java.math.BigDecimal;
+import java.util.StringJoiner;
 
 public class StockChartItem {
 
@@ -111,5 +112,17 @@ public class StockChartItem {
 
     public void setVwap(BigDecimal vwap) {
         this.vwap = vwap;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", StockChartItem.class.getSimpleName() + "[", "]")
+                .add("date='" + date + "'")
+                .add("open=" + open)
+                .add("high=" + high)
+                .add("low=" + low)
+                .add("close=" + close)
+                .add("volume=" + volume)
+                .toString();
     }
 }

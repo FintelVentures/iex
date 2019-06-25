@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import io.fintel.iex.model.StockChartItem;
 import io.fintel.iex.model.Symbol;
