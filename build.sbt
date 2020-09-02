@@ -13,3 +13,9 @@ libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.8"
 libraryDependencies += "junit" % "junit" % "4.12" % Test
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+
+// skip javadoc on stage
+// https://www.scala-sbt.org/sbt-native-packager/formats/universal.html
+mappings in (Compile, packageDoc) := Seq()
+sources in (Compile, doc) := Seq()
+publishArtifact in (Compile, packageDoc) := false
