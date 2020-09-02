@@ -81,4 +81,7 @@ public class IEXClient {
         return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/stats");
     }
 
+    public JsonElement getNews(String symbol) {
+        return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/news/last/50");
+    }
 }
