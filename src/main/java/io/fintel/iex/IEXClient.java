@@ -2,21 +2,22 @@ package io.fintel.iex;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import io.fintel.iex.model.ShortInterestItem;
+import io.fintel.iex.model.StockChartItem;
+import io.fintel.iex.model.Symbol;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.fintel.iex.model.ShortInterestItem;
-import io.fintel.iex.model.StockChartItem;
-import io.fintel.iex.model.Symbol;
 
 public class IEXClient {
 
     private static final String ROOT_URL = "https://api.iextrading.com/1.0";
     private static final String ROOT_URL_BETA = "https://cloud.iexapis.com/beta";
     private static final String ROOT_URL_V1 = "https://cloud.iexapis.com/v1";
+    private static final String ROOT_URL_STABLE = "https://cloud.iexapis.com/stable";
 
     private static final String ROOT_URL_SANDBOX = "https://sandbox.iexapis.com/v1";
 
@@ -36,6 +37,12 @@ public class IEXClient {
 
     protected JsonElement getAuthJson(String url) {
         return httpClientUtil.getJson(url
+                + (this.secret != null ? "?token=" + this.secret : ""));
+
+    }
+
+    protected String getAuthContent(String url) {
+        return httpClientUtil.getContent(url
                 + (this.secret != null ? "?token=" + this.secret : ""));
 
     }
@@ -83,5 +90,36 @@ public class IEXClient {
 
     public JsonElement getNews(String symbol) {
         return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/news/last/50");
+    }
+
+    public JsonObject getDataPoint(String symbol, String key) {
+
+        String content = null;
+        try {
+            content = this.getAuthContent(ROOT_URL_STABLE + "/data-points/" + symbol.toLowerCase() + "/" + key);
+        } catch (Exception e) {
+            if ( e.getMessage().contains("404")) {
+                return null;
+            }
+            throw e;
+        }
+
+        /*
+         * try to return a numeric primitive if possible
+         */
+        try {
+            double d = Double.parseDouble(content);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(key, d);
+            return jsonObject;
+
+        } catch (Exception e) {
+
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(key, content);
+        return jsonObject;
     }
 }
