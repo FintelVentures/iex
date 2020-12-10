@@ -80,6 +80,59 @@ public class HttpClientUtil {
         }
     }
 
+    public String getContent(final String url) {
+
+        return getContent(url, null);
+    }
+
+    public String getContent(final String url, final List<NameValuePair> params) {
+
+        /*
+         * if there are params, add a query string to the url
+         */
+        String urlWithParams = params != null && params.size() > 0 ?
+                url + '?' + URLEncodedUtils.format(params, "UTF-8") :
+                url;
+
+
+        /*
+         * Place open of httpClient in try/catch resource block so it is automatically closed
+         */
+        try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
+
+            /*
+             * prepare the get request
+             */
+            HttpGet request = new HttpGet(urlWithParams);
+            request.addHeader("accept", "application/json");
+
+            HttpResponse response = httpClient.execute(request);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new RuntimeException("Status: " + response.getStatusLine().getStatusCode() + " calling " +
+                        urlWithParams + " with msg: " + response.getEntity().getContent().toString());
+            }
+
+            HttpEntity entity = response.getEntity();
+            String content = EntityUtils.toString(entity);
+
+            request.releaseConnection(); // release http connection
+
+            return content;
+
+        } catch (IOException ioe) {
+
+            ioe.printStackTrace();
+            throw new RuntimeException(ioe);
+
+        } finally {
+
+            /*
+             * Explicit closing of httpClient is not necessary since it's
+             * enclosed in the try/catch/resource block
+             */
+        }
+    }
+
     public JsonObject postJson(final String url, final JsonObject json) {
 
         /*
