@@ -92,6 +92,10 @@ public class IEXClient {
         return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/news/last/50");
     }
 
+    public String getEODSplitStock(String symbol, String range) {
+        return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/splits/"+range).toString();
+    }
+
     public JsonObject getDataPoint(String symbol, String key) {
 
         String content = null;
