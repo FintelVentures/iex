@@ -96,6 +96,10 @@ public class IEXClient {
         return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/splits/"+range).toString();
     }
 
+    public String getExchange() {
+        return this.getAuthJson(ROOT_URL_STABLE + "/ref-data/exchanges").toString();
+    }
+
     public String getStockPrices(String symbol, String range) {
         return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/chart/"+range).toString();
     }
