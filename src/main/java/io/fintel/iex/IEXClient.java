@@ -104,6 +104,10 @@ public class IEXClient {
         return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/chart/"+range).toString();
     }
 
+    public String getRegionSymbol(String region) {
+        return this.getAuthJson(ROOT_URL_STABLE + "/ref-data/region/" + region.toLowerCase() + "/symbols").toString();
+    }
+
     public JsonObject getDataPoint(String symbol, String key) {
 
         String content = null;
