@@ -138,4 +138,8 @@ public class IEXClient {
         jsonObject.addProperty(key, content);
         return jsonObject;
     }
+
+    public String getDividendBasic(String symbol, String range) {
+        return this.getAuthJson(ROOT_URL_STABLE + "/stock/"+symbol.toLowerCase()+"/dividends/"+range).toString();
+    }
 }
