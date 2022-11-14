@@ -142,4 +142,8 @@ public class IEXClient {
     public String getDividendBasic(String symbol, String range) {
         return this.getAuthJson(ROOT_URL_STABLE + "/stock/"+symbol.toLowerCase()+"/dividends/"+range).toString();
     }
+
+    public String getCompanyDetails(String symbol) {
+        return this.getAuthJson(ROOT_URL_STABLE + "/stock/"+symbol.toLowerCase()+"/company").toString();
+    }
 }
