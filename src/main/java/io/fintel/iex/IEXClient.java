@@ -8,6 +8,7 @@ import io.fintel.iex.model.ShortInterestItem;
 import io.fintel.iex.model.StockChartItem;
 import io.fintel.iex.model.Symbol;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -67,7 +68,12 @@ public class IEXClient {
      * @return
      */
     public List<StockChartItem> getStockChart(String symbol) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL + "/stock/" + encodedSymbol + "/chart";
         JsonElement json = httpClientUtil.getJson(url);
 
@@ -78,7 +84,12 @@ public class IEXClient {
 
     public List<ShortInterestItem> getShortInterest(String symbol) {
 
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL + "/stock/market/short-interest/" + encodedSymbol;
         JsonElement json = httpClientUtil.getJson(url);
 
@@ -89,19 +100,34 @@ public class IEXClient {
     }
 
     public JsonElement getKeyStatsJson(String symbol) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_V1 + "/stock/" + encodedSymbol + "/stats";
         return this.getAuthJson(url);
     }
 
     public JsonElement getNews(String symbol) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_V1 + "/stock/" + encodedSymbol + "/news/last/50";
         return this.getAuthJson(url);
     }
 
     public String getEODSplitStock(String symbol, String range) {
-        String encodedsymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedsymbol = symbol.toLowerCase();
+        try {
+            encodedsymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_STABLE + "/stock/" + encodedsymbol + "/splits/"+range;
 
         return this.getAuthJson(url).toString();
@@ -112,14 +138,24 @@ public class IEXClient {
     }
 
     public String getStockPrices(String symbol, String range) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_STABLE + "/stock/" + encodedSymbol + "/chart/"+range;
         System.out.println(url);
         return this.getAuthJson(url).toString();
     }
 
     public String getRegionSymbol(String region) {
-        String encodedSymbol = URLEncoder.encode(region.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = region.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(region.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_STABLE + "/ref-data/region/" + encodedSymbol + "/symbols";
 
         return this.getAuthJson(url).toString();
@@ -129,7 +165,13 @@ public class IEXClient {
 
         String content = null;
         try {
-            String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+            String encodedSymbol = symbol.toLowerCase();
+            try{
+                encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+            } catch (UnsupportedEncodingException e){
+                throw new RuntimeException(e);
+            }
+
             String url = ROOT_URL_STABLE + "/data-points/" + encodedSymbol + "/" + key;
 
             content = this.getAuthContent(url);
@@ -160,14 +202,24 @@ public class IEXClient {
     }
 
     public String getDividendBasic(String symbol, String range) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_STABLE + "/stock/"+encodedSymbol+"/dividends/"+range;
 
         return this.getAuthJson(url).toString();
     }
 
     public String getCompanyDetails(String symbol) {
-        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String encodedSymbol = symbol.toLowerCase();
+        try {
+            encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         String url = ROOT_URL_STABLE + "/stock/"+encodedSymbol+"/company";
         return this.getAuthJson(url).toString();
     }
