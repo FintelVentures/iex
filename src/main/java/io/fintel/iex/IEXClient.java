@@ -9,6 +9,8 @@ import io.fintel.iex.model.StockChartItem;
 import io.fintel.iex.model.Symbol;
 
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +37,9 @@ public class IEXClient {
         this.secret = secret;
     }
 
-    protected JsonElement getAuthJson(String url) {
+    protected JsonElement getAuthJson(String url)  {
         return httpClientUtil.getJson(url
                 + (this.secret != null ? "?token=" + this.secret : ""));
-
     }
 
     protected String getAuthContent(String url) {
@@ -66,8 +67,9 @@ public class IEXClient {
      * @return
      */
     public List<StockChartItem> getStockChart(String symbol) {
-
-        JsonElement json = httpClientUtil.getJson(ROOT_URL + "/stock/" + symbol.toLowerCase() + "/chart");
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL + "/stock/" + encodedSymbol + "/chart";
+        JsonElement json = httpClientUtil.getJson(url);
 
         Type listType = new TypeToken<ArrayList<StockChartItem>>() {
         }.getType();
@@ -76,7 +78,9 @@ public class IEXClient {
 
     public List<ShortInterestItem> getShortInterest(String symbol) {
 
-        JsonElement json = httpClientUtil.getJson(ROOT_URL + "/stock/market/short-interest/" + symbol.toLowerCase());
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL + "/stock/market/short-interest/" + encodedSymbol;
+        JsonElement json = httpClientUtil.getJson(url);
 
         Type listType = new TypeToken<ArrayList<ShortInterestItem>>() {
         }.getType();
@@ -85,15 +89,22 @@ public class IEXClient {
     }
 
     public JsonElement getKeyStatsJson(String symbol) {
-        return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/stats");
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_V1 + "/stock/" + encodedSymbol + "/stats";
+        return this.getAuthJson(url);
     }
 
     public JsonElement getNews(String symbol) {
-        return this.getAuthJson(ROOT_URL_V1 + "/stock/" + symbol.toLowerCase() + "/news/last/50");
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_V1 + "/stock/" + encodedSymbol + "/news/last/50";
+        return this.getAuthJson(url);
     }
 
     public String getEODSplitStock(String symbol, String range) {
-        return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/splits/"+range).toString();
+        String encodedsymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_STABLE + "/stock/" + encodedsymbol + "/splits/"+range;
+
+        return this.getAuthJson(url).toString();
     }
 
     public String getExchange() {
@@ -101,18 +112,27 @@ public class IEXClient {
     }
 
     public String getStockPrices(String symbol, String range) {
-        return this.getAuthJson(ROOT_URL_STABLE + "/stock/" + symbol.toLowerCase() + "/chart/"+range).toString();
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_STABLE + "/stock/" + encodedSymbol + "/chart/"+range;
+        System.out.println(url);
+        return this.getAuthJson(url).toString();
     }
 
     public String getRegionSymbol(String region) {
-        return this.getAuthJson(ROOT_URL_STABLE + "/ref-data/region/" + region.toLowerCase() + "/symbols").toString();
+        String encodedSymbol = URLEncoder.encode(region.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_STABLE + "/ref-data/region/" + encodedSymbol + "/symbols";
+
+        return this.getAuthJson(url).toString();
     }
 
     public JsonObject getDataPoint(String symbol, String key) {
 
         String content = null;
         try {
-            content = this.getAuthContent(ROOT_URL_STABLE + "/data-points/" + symbol.toLowerCase() + "/" + key);
+            String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+            String url = ROOT_URL_STABLE + "/data-points/" + encodedSymbol + "/" + key;
+
+            content = this.getAuthContent(url);
         } catch (Exception e) {
             if ( e.getMessage().contains("404")) {
                 return null;
@@ -140,10 +160,15 @@ public class IEXClient {
     }
 
     public String getDividendBasic(String symbol, String range) {
-        return this.getAuthJson(ROOT_URL_STABLE + "/stock/"+symbol.toLowerCase()+"/dividends/"+range).toString();
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_STABLE + "/stock/"+encodedSymbol+"/dividends/"+range;
+
+        return this.getAuthJson(url).toString();
     }
 
     public String getCompanyDetails(String symbol) {
-        return this.getAuthJson(ROOT_URL_STABLE + "/stock/"+symbol.toLowerCase()+"/company").toString();
+        String encodedSymbol = URLEncoder.encode(symbol.toLowerCase(), StandardCharsets.UTF_8);
+        String url = ROOT_URL_STABLE + "/stock/"+encodedSymbol+"/company";
+        return this.getAuthJson(url).toString();
     }
 }
