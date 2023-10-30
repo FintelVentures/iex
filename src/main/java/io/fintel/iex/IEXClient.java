@@ -145,7 +145,6 @@ public class IEXClient {
             throw new RuntimeException(e);
         }
         String url = ROOT_URL_STABLE + "/stock/" + encodedSymbol + "/chart/"+range;
-        System.out.println(url);
         return this.getAuthJson(url).toString();
     }
 
