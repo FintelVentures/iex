@@ -23,6 +23,7 @@ public class IEXClient {
     private static final String ROOT_URL_STABLE = "https://cloud.iexapis.com/stable";
 
     private static final String ROOT_URL_SANDBOX = "https://sandbox.iexapis.com/v1";
+    private static final String ROOT_URL_V1_CORE = "https://api.iex.cloud/v1";
 
     private final Gson gson = new Gson();
 
@@ -221,5 +222,10 @@ public class IEXClient {
         }
         String url = ROOT_URL_STABLE + "/stock/"+encodedSymbol+"/company";
         return this.getAuthJson(url).toString();
+    }
+
+    public JsonElement getFXCurrencies() {
+        String url = ROOT_URL_V1_CORE + "/data/CORE/REF_DATA_FX/SPY";
+        return this.getAuthJson(url);
     }
 }
