@@ -228,4 +228,10 @@ public class IEXClient {
         String url = ROOT_URL_V1_CORE + "/data/CORE/REF_DATA_FX/SPY";
         return this.getAuthJson(url);
     }
+
+    public JsonElement getLatestCurrencyRates(List<String> currencyPairs){
+        String currencyPairString = String.join(",", currencyPairs);
+        String url = ROOT_URL_V1_CORE + "/fx/latest?symbols=" + currencyPairString;
+        return this.getAuthJson(url);
+    }
 }
