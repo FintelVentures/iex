@@ -232,6 +232,7 @@ public class IEXClient {
     public JsonElement getLatestCurrencyRates(List<String> currencyPairs){
         String currencyPairString = String.join(",", currencyPairs);
         String url = ROOT_URL_V1_CORE + "/fx/latest?symbols=" + currencyPairString;
-        return this.getAuthJson(url);
+        return httpClientUtil.getJson(url
+                + (this.secret != null ? "&token=" + this.secret : ""));
     }
 }
